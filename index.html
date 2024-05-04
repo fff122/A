@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>查找重复数字</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .input-group {
+    margin-bottom: 15px;
+  }
+  .input-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .input-group input[type="text"] {
+    margin-right: 5px;
+    padding: 10px;
+    width: 80px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+  }
+  button {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  #result {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2>输入多组数字</h2>
+  <p>每组输入5个数字，输入完毕后点击“查找重复数字”按钮。</p>
+
+  <div id="input-groups"></div>
+
+  <button onclick="addInputGroup()">新增输入组</button>
+
+  <button onclick="findDuplicates()">查找重复数字</button>
+
+  <div id="result"></div>
+
+</div>
+
+<script>
+// 添加输入组的函数
+function addInputGroup() {
+  const inputGroups = document.getElementById('input-groups');
+  const groupCount = inputGroups.querySelectorAll('.input-group').length;
+  
+  const newInputGroup = document.createElement('div');
+  newInputGroup.className = 'input-group';
+  newInputGroup.innerHTML = `
+    <label>输入组 ${groupCount + 1}:</label>
+    <input type="text" class="group-input" placeholder="数字1" />
+    <input type="text" class="group-input" placeholder="数字2" />
+    <input type="text" class="group-input" placeholder="数字3" />
+    <input type="text" class="group-input" placeholder="数字4" />
+    <input type="text" class="group-input" placeholder="数字5" />
+  `;
+  inputGroups.appendChild(newInputGroup);
+}
+
+// 查找重复数字的函数
+function findDuplicates() {
+  const inputs = document.getElementsByClassName('group-input');
+  const allNumbers = [];
+  const duplicates = [];
+
+  for (let input of inputs) {
+    allNumbers.push(parseInt(input.value, 10));
+  }
+
+  for (let number of allNumbers) {
+    if (allNumbers.indexOf(number) !== allNumbers.lastIndexOf(number) && !duplicates.includes(number)) {
+      duplicates.push(number);
+    }
+  }
+
+  document.getElementById('result').textContent = `重复的数字: ${duplicates.join(', ')}`;
+}
+
+// 默认添加一个输入组
+addInputGroup();
+</script>
+
+</body>
+</html>
