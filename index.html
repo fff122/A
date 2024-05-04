@@ -86,7 +86,6 @@
 </div>
 
 <script>
-// 添加输入组的函数
 function addInputGroup() {
   const inputGroups = document.getElementById('input-groups');
   const groupCount = inputGroups.querySelectorAll('.input-group').length;
@@ -127,7 +126,7 @@ function findDuplicates() {
   const resultElement = document.getElementById('result');
   resultElement.innerHTML = `重复的数字: ${duplicates.length > 0 ? duplicates.join(', ') : '无'}`;
 
-  // 计算概率并显示
+
   const totalCount = allNumbers.length;
   const probabilityElement = document.createElement('div');
   probabilityElement.className = 'probability';
@@ -142,7 +141,7 @@ function findDuplicates() {
   resultElement.appendChild(probabilityElement);
 }
 
-// 初始时添加一个输入组
+
 addInputGroup();
 </script>
 
