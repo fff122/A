@@ -17,21 +17,23 @@
     background: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
   }
   .input-group {
     margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
   }
   .input-group label {
-    display: block;
     margin-bottom: 5px;
   }
   .input-group input[type="text"] {
-    margin-right: 5px;
     padding: 10px;
     width: 80px;
     border: 1px solid #ddd;
     border-radius: 5px;
     text-align: center;
+    margin: 0 5px;
   }
   button {
     padding: 10px 20px;
@@ -42,12 +44,27 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
   }
   button:hover {
     background-color: #0056b3;
   }
   #result {
     margin-top: 20px;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+  }
+  .probability {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #d4edda;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .probability p {
+    margin: 0;
   }
 </style>
 </head>
@@ -87,14 +104,18 @@ function addInputGroup() {
   inputGroups.appendChild(newInputGroup);
 }
 
-
 function findDuplicates() {
   const inputs = document.getElementsByClassName('group-input');
   const allNumbers = [];
   const duplicates = [];
+  const numberCounts = {};
 
   for (let input of inputs) {
-    allNumbers.push(parseInt(input.value, 10));
+    const value = parseInt(input.value, 10);
+    if (!isNaN(value)) {
+      allNumbers.push(value);
+      numberCounts[value] = (numberCounts[value] || 0) + 1;
+    }
   }
 
   for (let number of allNumbers) {
@@ -103,10 +124,25 @@ function findDuplicates() {
     }
   }
 
-  document.getElementById('result').textContent = `重复的数字: ${duplicates.join(', ')}`;
+  const resultElement = document.getElementById('result');
+  resultElement.innerHTML = `重复的数字: ${duplicates.length > 0 ? duplicates.join(', ') : '无'}`;
+
+  // 计算概率并显示
+  const totalCount = allNumbers.length;
+  const probabilityElement = document.createElement('div');
+  probabilityElement.className = 'probability';
+
+  duplicates.forEach(duplicate => {
+    const occurrence = numberCounts[duplicate];
+    const probability = ((occurrence / totalCount) * 100).toFixed(2);
+    const probabilityText = `数字 ${duplicate} 出现概率: ${probability}`;
+    probabilityElement.innerHTML += `<p>${probabilityText}</p>`;
+  });
+
+  resultElement.appendChild(probabilityElement);
 }
 
-
+// 初始时添加一个输入组
 addInputGroup();
 </script>
 
